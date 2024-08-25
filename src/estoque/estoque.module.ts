@@ -2,18 +2,13 @@ import { Module } from "@nestjs/common";
 import { EstoqueController } from "./estoque.controller";
 import { EstoqueService } from "./estoque.service";
 import { MongooseModule } from "@nestjs/mongoose";
-import { Produto } from "./entities/produto.entity";
-
+import { Produto, ProdutoSchema } from "./entities/produto.entity";
 
 @Module({
-    // mports: [MongooseModule.forFeature([{ name: Produto.name, schema: ProdutoSchema }])],
+    imports: [MongooseModule.forFeature([{ name: Produto.name, schema: ProdutoSchema }])],
     controllers: [EstoqueController],
-    providers:[ EstoqueService]
+    providers:[ EstoqueService],
 })
-
 export class EstoqueModule {  
-
-
-  
 
 }
