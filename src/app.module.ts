@@ -10,8 +10,8 @@ import { EstoqueModule } from './estoque/estoque.module';
 
 
 @Module({
-  imports: [ EstoqueModule, ConfigModule.forRoot(), MongooseModule.forRoot('mongodb://localhost:27017/produtos')],
+  imports: [EstoqueModule, ConfigModule.forRoot(), MongooseModule.forRoot('mongodb+srv://fabriciojamescarneiro:Z4S8WvIZgcPEYjsi@estoque-cluster.dvcvp.mongodb.net/produtos?retryWrites=true&w=majority&appName=estoque-cluster/')],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
