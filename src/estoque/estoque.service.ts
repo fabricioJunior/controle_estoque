@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { ProdutoDto } from './dtos/produto.dto';
 import { isEmpty } from 'rxjs';
 import mongoose, { HydratedDocument } from 'mongoose';
+import { log } from 'console';
 @Injectable()
 export class EstoqueService {
 
@@ -34,10 +35,10 @@ export class EstoqueService {
     ).exec();
 
     if (result === null) {
+      log(createProdutoDto);
       const createdProduto = new this.produtoModel(createProdutoDto,);
-
-      return createdProduto.save(
-      );
+      log(createdProduto);
+      return createdProduto.save();
     }
 
     return result;

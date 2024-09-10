@@ -1,6 +1,6 @@
 
 
-export class ProdutoDto { 
+export class ProdutoDto {
     descricao: string;
     referencia: string;
     cor: string;
