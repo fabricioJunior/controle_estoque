@@ -11,6 +11,7 @@ export class EstoqueController {
   @Get()
   async get(): Promise<Produto[]> {
     return this.estoqueService.findAll();
+
   }
 
   @Post()
