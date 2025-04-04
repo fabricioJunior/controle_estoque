@@ -6,11 +6,12 @@ import { EstoqueController } from './estoque/estoque.controller';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EstoqueModule } from './estoque/estoque.module';
+import { ProdutoPedidoModulo } from './produto.pedido/produto.pedido.modulo';
 
 
 
 @Module({
-  imports: [EstoqueModule, ConfigModule.forRoot(), MongooseModule.forRoot('mongodb+srv://fabriciojamescarneiro:Z4S8WvIZgcPEYjsi@estoque-cluster.dvcvp.mongodb.net/produtos?retryWrites=true&w=majority&appName=estoque-cluster/')],
+  imports: [EstoqueModule, ProdutoPedidoModulo, ConfigModule.forRoot(), MongooseModule.forRoot('mongodb+srv://fabriciojamescarneiro:Z4S8WvIZgcPEYjsi@estoque-cluster.dvcvp.mongodb.net/produtos?retryWrites=true&w=majority&appName=estoque-cluster/')],
   controllers: [AppController],
   providers: [AppService],
 })
