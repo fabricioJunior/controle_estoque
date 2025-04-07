@@ -30,7 +30,8 @@ export class EstoqueService {
       codigoDeBarras: createProdutoDto.codigoDeBarras
     }
       , {
-        quantidade: createProdutoDto.quantidade
+        quantidade: createProdutoDto.quantidade,
+        valor: createProdutoDto.valor,
       }
     ).exec();
 

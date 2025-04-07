@@ -2,12 +2,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Date, HydratedDocument } from 'mongoose';
 
-export type ProdutPedidoDocumento = HydratedDocument<ProdutoPedido>;
+export type ProdutPedidoDocumento = HydratedDocument<ProdutoPedidoModel>;
 
-@Schema()
-export class ProdutoPedido {
-    _id: mongoose.Types.ObjectId;
-    @Prop()
+export class ProdutoPedidoModel {
+    @Prop(
+
+    )
     idPedido: number
     @Prop()
     descricao: string;
@@ -21,18 +21,14 @@ export class ProdutoPedido {
     valor: number;
     @Prop()
     desconto: number;
-    @Prop()
-    enviadoNF: boolean;
-    @Prop({ type: Date, default: Date.now() })
-    diaDoPedido: Date;
+
     @Prop()
     codigoDeBarras: string;
 
-
-    constructor(partial?: Partial<ProdutoPedido>) {
+    constructor(partial?: Partial<ProdutoPedidoModel>) {
         Object.assign(this, partial);
     }
 
+
 }
 
-export const ProdutoPedidoSchema = SchemaFactory.createForClass(ProdutoPedido);
