@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { EstoqueModule } from './estoque/estoque.module';
 import { PedidosModulo } from './pedidos/pedidos.modulo';
 import { HttpModule } from '@nestjs/axios';
+import { FiscalModule } from './fiscal/fiscal.module';
 
 
 
@@ -15,6 +16,7 @@ import { HttpModule } from '@nestjs/axios';
   imports: [
     EstoqueModule,
     PedidosModulo,
+    FiscalModule,
     ConfigModule.forRoot(),
     HttpModule,
     MongooseModule.forRoot('mongodb+srv://fabriciojamescarneiro:Z4S8WvIZgcPEYjsi@estoque-cluster.dvcvp.mongodb.net/produtos?retryWrites=true&w=majority&appName=estoque-cluster/'),],

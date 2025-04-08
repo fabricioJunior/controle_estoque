@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
-import { ProdutoPedidoService as PedidosService } from "./pedidos.service";
+import { PedidosService as PedidosService } from "./pedidos.service";
 import { ProdutoPedidoModel } from "./models/produto.pedido.model";
 import { ProdutoPedidoDto } from "./dto/produto.pedido.dto";
 import { log } from "console";

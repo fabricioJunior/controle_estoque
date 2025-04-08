@@ -36,10 +36,15 @@ export class PedidoModel {
         }
     )
     pagamentos: PagamentoModel[]
-    @Prop()
+    @Prop(
+        { default: false }
+    )
     enviadoNF?: boolean;
+    @Prop()
+    urlDanfe?: string;
     @Prop({ type: Date, default: Date.now() })
     diaDoPedido: Date;
+
 
     constructor(partial?: Partial<PedidoModel>) {
         Object.assign(this, partial);

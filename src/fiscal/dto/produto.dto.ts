@@ -1,4 +1,4 @@
-export interface ProdutoDto {
+export class ProdutoDto {
     nome: string
     codigo: string
     ncm: string
@@ -10,4 +10,8 @@ export interface ProdutoDto {
     subtotal: string
     total: string
     classe_imposto: string
+
+    constructor(partial?: Partial<ProdutoDto>) {
+        Object.assign(this, partial);
+    }
 }
