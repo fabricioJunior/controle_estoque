@@ -9,6 +9,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:63263',
+      'http://localhost:56914',
       'https://estoque-online-e8o1ptnfp-fabriciojuniors-projects.vercel.app',
       'https://estoque-online-git-main-fabriciojuniors-projects.vercel.app',
     ],

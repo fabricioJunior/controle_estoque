@@ -14,8 +14,15 @@ export class FiscalController {
     constructor(private fiscalService: FiscalService, private pedidosService: PedidosService,) { }
 
     @Post()
-    async notaFiscal(@Query('idPedido') idPedido: string): Promise<string> {
-        return this.emitirNotaFiscal(Number.parseInt(idPedido));
+    async notaFiscal(@Query('idPedido') idPedido: string): Promise<ResultadoProcessarNotasDto> {
+        var danfe = await this.emitirNotaFiscal(Number.parseInt(idPedido));
+        var pedido = await this.pedidosService.findById(Number.parseInt(idPedido));
+        return new ResultadoProcessarNotasDto(
+            {
+                totalEmitido: pedido.total,
+                danfes: [danfe]
+            }
+        );
     }
 
     private async emitirNotaFiscal(idPedido: number): Promise<string> {
