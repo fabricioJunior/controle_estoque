@@ -14,7 +14,7 @@ async function bootstrap() {
       'https://estoque-online-git-main-fabriciojuniors-projects.vercel.app',
     ],
     methods: ["GET", "POST"],
-    credentials: true,
+    credentials: false,
   });
   await app.listen(process.env.PORT || 5080);
 }
