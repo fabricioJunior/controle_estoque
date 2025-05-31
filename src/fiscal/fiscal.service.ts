@@ -4,6 +4,7 @@ import { NotaFiscalConsumidorDto } from "./dto/nota.fiscal.consumidor.dto";
 import { AxiosRequestConfig } from "axios";
 import { lastValueFrom } from "rxjs";
 import { log } from "console";
+import { PedidoDto } from "./dto/pedido.dto";
 
 @Injectable()
 export class FiscalService {
@@ -34,7 +35,8 @@ export class FiscalService {
             requestConfig,
         ));
         if (response.data['error'] != null) {
-            log(response.data);
+            console.error(`informacoes do servido web mania: ${response.data}`, response.data['error']);
+            console.error(`nota: ${nota}`);
             throw Error(response.data);
         }
         if (response.data['status'] == 'reprovado') {

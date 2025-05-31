@@ -24,64 +24,83 @@ export class FiscalController {
             }
         );
     }
-
     private async emitirNotaFiscal(idPedido: number): Promise<string> {
-        var pedido = await this.pedidosService.findById(idPedido);
-        if (pedido.urlDanfe != null) {
-            return pedido.urlDanfe;
-        }
-        var produtoDtos = pedido.produtos.map((produto) => new ProdutoDto(
-            {
-                nome: produto.descricao,
-                codigo: produto.codigoDeBarras,
-                quantidade: produto.quantidade,
-                total: produto.valor.toString(),
-                subtotal: produto.valor.toString(),
-                classe_imposto: "REF154608942",
-                ncm: '61034900', //TODO: Adicionar 
-                unidade: 'UN',
-                origem: 1,
+        try {
+            var pedido = await this.pedidosService.findById(idPedido);
+            if (pedido == null) {
+                throw new Error('Pedido não encontrado');
             }
-        ));
-        var formaPagamento = pedido.pagamentos.map((pagamento) => this.convertPagamentoCode(pagamento.formaDePagamento))
-        var valoresPagamento = pedido.pagamentos.map((pagamento) => pagamento.valor.toString());
-        var complementar = 'Romaneio: ' + pedido.id + (' -  Taxa ' + pedido.taxaDeEntrega);
-        log(complementar);
-        var pedidoDto = new PedidoDto(
-            {
-                forma_pagamento: formaPagamento,
-                valor_pagamento: valoresPagamento,
-                total: pedido.total.toString(),
-                desconto: pedido.desconto.toString(),
-                modalidade_frete: 9,
-                presenca: 1,
-                informacoes_complementares: complementar,
+            if (pedido.urlDanfe != null) {
+                return pedido.urlDanfe;
             }
-        );
-        var nota = new NotaFiscalConsumidorDto({
-            id: null,
-            operacao: 1,
-            natureza_operacao: 'Vendas de mercadorias',
-            modelo: 2,
-            ambiente: 1,
-            finalidade: 1,
-            produtos: produtoDtos,
-            pedido: pedidoDto,
-        });
-        var result = await this.fiscalService.sendNFC(nota);
-        var pedidoAtualizado = await this.pedidosService.update(pedido.id, true, result);
-        log(pedidoAtualizado);
-        return result;
-    }
 
+            var totalProdutos = pedido.produtos.reduce((total, produto) => total + produto.valor, 0);
+            if (totalProdutos != pedido.total) {
+                var totalPagamento = pedido.pagamentos.reduce((total, pagamento) => total + pagamento.valor, 0);
+                pedido.total = totalProdutos;
+                pedido.desconto = totalProdutos - totalPagamento;
+            }
+
+            var produtoDtos = pedido.produtos.map((produto) => new ProdutoDto(
+                {
+                    nome: produto.descricao,
+                    codigo: produto.codigoDeBarras,
+                    quantidade: produto.quantidade,
+                    total: produto.valor.toString(),
+                    subtotal: produto.valor.toString(),
+                    classe_imposto: "REF154608942",
+                    ncm: '61034900', //TODO: Adicionar 
+                    unidade: 'UN',
+                    origem: 1,
+                }
+            ));
+            var formaPagamento = pedido.pagamentos.map((pagamento) => this.convertPagamentoCode(pagamento.formaDePagamento))
+            var valoresPagamento = pedido.pagamentos.map((pagamento) => pagamento.valor.toString());
+            var complementar = 'Romaneio: ' + pedido.id + (' -  Taxa ' + pedido.taxaDeEntrega);
+            log(complementar);
+            var pedidoDto = new PedidoDto(
+                {
+                    forma_pagamento: formaPagamento,
+                    valor_pagamento: valoresPagamento,
+                    total: pedido.total.toString(),
+                    desconto: pedido.desconto.toString(),
+                    modalidade_frete: 9,
+                    presenca: 1,
+                    informacoes_complementares: complementar,
+                }
+            );
+            var nota = new NotaFiscalConsumidorDto({
+                id: null,
+                operacao: 1,
+                natureza_operacao: 'Vendas de mercadorias',
+                modelo: 2,
+                ambiente: 1,
+                finalidade: 1,
+                produtos: produtoDtos,
+                pedido: pedidoDto,
+            });
+            var result = await this.fiscalService.sendNFC(nota);
+            var pedidoAtualizado = await this.pedidosService.update(pedido.id, true, result);
+            log(pedidoAtualizado);
+            return result;
+        } catch (error) {
+            console.error(`Erro ao emitir nota fiscal para o pedido ID: ${idPedido}`, error);
+            console.error('Informações do pedido:', await this.pedidosService.findById(idPedido));
+            throw error; // Re-throw the error to ensure it propagates
+        }
+    }
 
     @Post('/notaFiscalDoDia')
     async notaFiscalDoDia(): Promise<ResultadoProcessarNotasDto> {
         var pedidos = await this.pedidosService.findWhere(null, false);
-
+        pedidos = pedidos.filter(pedido =>
+            pedido.pagamentos.every(pagamento =>
+                pagamento.formaDePagamento === 'PIX' || pagamento.formaDePagamento.includes('CARTAO') ||
+                pagamento.formaDePagamento.includes('DEBITO'))
+        );
         var totalProcessado = 0.0;
         var danfers = [];
-        log(pedidos);
+        // console.error(` ${pedidos}`);
         for (var pedido of pedidos) {
             var danfe = await this.emitirNotaFiscal(pedido.id);
             danfers.push(danfe);
