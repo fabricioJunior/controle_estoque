@@ -47,7 +47,8 @@ export class PedidoModel {
 
     @Prop()
     pagamentoPendente?: boolean;
-
+    @Prop()
+    urlDePagamento?: string;
 
 
     constructor(partial?: Partial<PedidoModel>) {

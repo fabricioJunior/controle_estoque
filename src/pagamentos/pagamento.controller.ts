@@ -41,9 +41,12 @@ export class PagamentoController {
             orderNsu: pedido.id.toString(),
             redirectUrl: 'https://estoque-online-git-main-fabriciojuniors-projects.vercel.app/pagamento'
         });
+        var url = this.pagamentoService.gerarUrlDePagamento(pagamentoRequest);
         pedido.pagamentoPendente = true;
+
+        pedido.urlDePagamento = url;
         await this.pedidosService.updateFromModel(pedido);
-        return this.pagamentoService.gerarUrlDePagamento(pagamentoRequest);
+        return pedido;
     }
     @Post()
     async post(@Body() pagamento: PagamentoResultDto) {
