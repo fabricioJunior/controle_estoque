@@ -20,12 +20,36 @@ export class PedidosService {
         var result = await this.pedidoModel.where({ id: idPedido }).exec();
         return result[0];
     }
+    async pedidosComPagamentoPendente(): Promise<PedidoModel[]> {
+        return this.pedidoModel.where({ pagamentoPendente: true }).exec();
+    }
+
+    async pedidoComPagamentoPendente(idPedido: number): Promise<PedidoModel> {
+        var result = await this.pedidoModel.where({ id: idPedido, pagamentoPendente: true }).exec();
+        return result[0];
+    }
 
     async findWhere(diaDoPedido?: Date, enviadoNF?: boolean,): Promise<PedidoModel[]> {
 
         return this.pedidoModel.where({
             enviadoNF: enviadoNF,
         }).exec();
+    }
+
+    async updateFromModel(pedido: PedidoModel) {
+        var filter = {
+            id: pedido.id,
+        }
+        var result = await this.pedidoModel.findOneAndUpdate(filter, {
+            enviadoNF: pedido.enviadoNF,
+            urlDanfe: pedido.urlDanfe,
+            produtos: pedido.produtos,
+            pagamentos: pedido.pagamentos,
+            pagamentoPendente: pedido.pagamentoPendente,
+
+
+        }).exec();
+        return result;
     }
     async update(idPedido: number, enviadoNF: boolean, urlDanfe: string): Promise<PedidoModel> {
         var filter = {
@@ -45,6 +69,7 @@ export class PedidosService {
         var result = await this.pedidoModel.findOneAndUpdate(filter, {
             pagamentos: createPedidoDto.pagamentos,
             produtos: createPedidoDto.produtos,
+
         }).exec();
 
         if (result === null) {

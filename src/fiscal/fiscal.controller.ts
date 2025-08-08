@@ -79,7 +79,9 @@ export class FiscalController {
                 produtos: produtoDtos,
                 pedido: pedidoDto,
             });
+            log(nota);
             var result = await this.fiscalService.sendNFC(nota);
+
             var pedidoAtualizado = await this.pedidosService.update(pedido.id, true, result);
             log(pedidoAtualizado);
             return result;

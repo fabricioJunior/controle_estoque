@@ -45,6 +45,10 @@ export class PedidoModel {
     @Prop({ type: Date, default: Date.now() })
     diaDoPedido: Date;
 
+    @Prop()
+    pagamentoPendente?: boolean;
+
+
 
     constructor(partial?: Partial<PedidoModel>) {
         Object.assign(this, partial);

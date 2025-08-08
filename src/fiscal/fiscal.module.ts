@@ -3,7 +3,7 @@ import { FiscalController } from "./fiscal.controller";
 import { PedidosService } from "src/pedidos/pedidos.service";
 import { FiscalService } from "./fiscal.service";
 import { HttpModule, HttpService } from "@nestjs/axios";
-import { PedidosModulo } from "src/pedidos/pedidos.modulo";
+import { PedidosModulo } from "src/pedidos/pedidos.module";
 
 @Module({
     imports: [HttpModule, PedidosModulo],
