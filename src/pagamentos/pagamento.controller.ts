@@ -48,7 +48,7 @@ export class PagamentoController {
 
         pedido.urlDePagamento = url;
         await this.pedidosService.updateFromModel(pedido);
-        return pedido;
+        return url;
     }
     @Post()
     async post(@Body() pagamento: PagamentoResultDto) {
