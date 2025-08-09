@@ -40,7 +40,7 @@ export class PagamentoController {
                 quantity: produto.quantidade
             })),
             orderNsu: pedido.id.toString(),
-            redirectUrl: 'https://estoque-online-git-main-fabriciojuniors-projects.vercel.app/pagamento'
+            redirectUrl: 'https://use-por-onde-flor.vercel.app/pagamento'
         });
         console.log(pagamentoRequest);
         var url = this.pagamentoService.gerarUrlDePagamento(pagamentoRequest);
