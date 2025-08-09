@@ -11,5 +11,9 @@ export class PagamentoService {
         return `https://checkout.infinitepay.io/${pagamentoRequest.handler}?items=${items.toString()}&redirect_url=${pagamentoRequest.redirectUrl}&order_nsu=${pagamentoRequest.orderNsu}`;
     }
 
+    confirmarPedido() {
+
+    }
+
 
 }

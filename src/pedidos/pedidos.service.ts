@@ -48,6 +48,7 @@ export class PedidosService {
             pagamentoPendente: pedido.pagamentoPendente,
             urlDePagamento: pedido.urlDePagamento,
             pessoa: pedido.pessoa,
+            urlComprovante: pedido.urlComprovante,
 
         }).exec();
         return result;

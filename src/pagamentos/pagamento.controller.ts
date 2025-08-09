@@ -23,7 +23,8 @@ export class PagamentoController {
         var result = new PagamentoPendenteDto({
             idPedido: idPedido,
             notaFiscal: pedido?.urlDanfe,
-            pendente: pedido?.pagamentoPendente ?? false
+            pendente: pedido?.pagamentoPendente ?? false,
+            comprovante: pedido.urlComprovante,
         });
         return result;
     }
@@ -61,10 +62,18 @@ export class PagamentoController {
             slug: pagamento.slug,
             orderNsu: pagamento.idPedido,
             transacaoId: pagamento.transanctionId,
+            comprovanteDePagamento: pagamento.comprovanteDePagamento
         });
         pedido.pagamentos = [pagamentoModel];
         pedido.pagamentoPendente = false;
-        return this.pedidosService.updateFromModel(pedido);
+        pedido.urlComprovante = pagamento.comprovanteDePagamento;
+        return new PagamentoPendenteDto({
+            comprovante: pedido.urlComprovante,
+            notaFiscal: pedido.urlDanfe,
+            pendente: false,
+            idPedido: pedido.id.toString(),
+        });
+
     }
 
     @Post('cancelar')
