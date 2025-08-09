@@ -1,4 +1,5 @@
 import { PagamentoDto } from "./pagamento.dto"
+import { PessoaDto } from "./pessoa.dto"
 import { ProdutoPedidoDto } from "./produto.pedido.dto"
 
 export class PedidoDto {
@@ -8,4 +9,5 @@ export class PedidoDto {
     taxaDeEntrega: number
     produtos: ProdutoPedidoDto[]
     pagamentos: PagamentoDto[]
+    pessoa?: PessoaDto;
 }

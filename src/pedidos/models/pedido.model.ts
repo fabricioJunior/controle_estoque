@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose, { HydratedDocument } from "mongoose";
 import { ProdutoPedidoModel } from "./produto.pedido.model";
 import { PagamentoModel } from "./pagamento.model";
+import { PessoaModel } from "./pessoa.model";
 
 
 export type PedidoDocumento = HydratedDocument<PedidoModel>;
@@ -36,6 +37,13 @@ export class PedidoModel {
         }
     )
     pagamentos: PagamentoModel[]
+
+    @Prop(
+        {
+            type: PessoaModel
+        }
+    )
+    pessoa?: PessoaModel
     @Prop(
         { default: false }
     )
