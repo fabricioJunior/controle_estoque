@@ -99,7 +99,7 @@ export class FiscalController {
             pedido.pagamentos.every(pagamento =>
 
                 pagamento.formaDePagamento === 'PIX' || pagamento.formaDePagamento.includes('CARTAO') ||
-                pagamento.formaDePagamento.includes('DEBITO')) && pedido.total != 0
+                pagamento.formaDePagamento.includes('DEBITO'))
         );
         var totalProcessado = 0.0;
         var danfers = [];
