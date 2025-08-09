@@ -20,7 +20,7 @@ async function bootstrap() {
       'https://useporondeflor.com.br'
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: false,
+    credentials: true,
   });
   await app.listen(process.env.PORT || 5080);
 }
