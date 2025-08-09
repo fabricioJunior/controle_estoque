@@ -68,7 +68,7 @@ export class PagamentoController {
         pedido.pagamentos = [pagamentoModel];
         pedido.pagamentoPendente = false;
         pedido.urlComprovante = pagamento.comprovanteDePagamento;
-        this.pedidosService.upsert(pedido);
+        this.pedidosService.updateFromModel(pedido);
         return new PagamentoPendenteDto({
             comprovante: pedido.urlComprovante,
             notaFiscal: pedido.urlDanfe,
