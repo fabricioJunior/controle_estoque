@@ -21,7 +21,7 @@ export class PedidosService {
         return result[0];
     }
     async pedidosComPagamentoPendente(): Promise<PedidoModel[]> {
-        return this.pedidoModel.where({ pagamentoPendente: true }).exec();
+        return this.pedidoModel.where({ enviadoNF: false }).exec();
     }
 
     async pedidoComPagamentoPendente(idPedido: number): Promise<PedidoModel> {
