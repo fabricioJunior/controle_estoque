@@ -51,6 +51,7 @@ export class PagamentoController {
         await this.pedidosService.updateFromModel(pedido);
         return url;
     }
+    //http://localhost:4200/pagamento?capture_method=pix&transaction_id=6a2b67ec-5d41-4e9d-979b-e63675f8c96b&transaction_nsu=6a2b67ec-5d41-4e9d-979b-e63675f8c96b&slug=21TGnE5n3v&order_nsu=7629&receipt_url=https:%2F%2Frecibo.infinitepay.io%2F6a2b67ec-5d41-4e9d-979b-e63675f8c96b
     @Post()
     async post(@Body() pagamento: PagamentoResultDto) {
         var pedido = await this.pedidosService.findById(Number.parseInt(pagamento.idPedido));
@@ -67,6 +68,7 @@ export class PagamentoController {
         pedido.pagamentos = [pagamentoModel];
         pedido.pagamentoPendente = false;
         pedido.urlComprovante = pagamento.comprovanteDePagamento;
+        this.pedidosService.upsert(pedido);
         return new PagamentoPendenteDto({
             comprovante: pedido.urlComprovante,
             notaFiscal: pedido.urlDanfe,
