@@ -24,7 +24,7 @@ export class PagamentoController {
             idPedido: idPedido,
             notaFiscal: pedido?.urlDanfe,
             pendente: pedido?.pagamentoPendente ?? false,
-            comprovante: pedido.urlComprovante,
+            comprovante: pedido?.urlComprovante,
         });
         return result;
     }
