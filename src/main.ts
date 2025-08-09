@@ -12,7 +12,8 @@ async function bootstrap() {
       'http://localhost:56914',
       'https://estoque-online-e8o1ptnfp-fabriciojuniors-projects.vercel.app',
       'https://estoque-online-git-main-fabriciojuniors-projects.vercel.app',
-      'https://use-por-onde-flor.vercel.app',
+      'https://use-por-onde-flor-bcycwolyu-fabriciojuniors-projects.vercel.app',
+      'https://use-por-onde-flor-git-master-fabriciojuniors-projects.vercel.app',
       'https://www.useporondeflor.com.br'
     ],
     methods: ["GET", "POST"],

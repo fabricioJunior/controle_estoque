@@ -46,8 +46,8 @@ export class FiscalController {
                     nome: produto.descricao,
                     codigo: produto.codigoDeBarras,
                     quantidade: produto.quantidade,
-                    total: produto.valor.toString(),
-                    subtotal: produto.valor.toString(),
+                    total: produto.valor?.toString() ?? '0',
+                    subtotal: produto.valor?.toString() ?? '0',
                     classe_imposto: "REF154608942",
                     ncm: '61034900', //TODO: Adicionar 
                     unidade: 'UN',
@@ -97,8 +97,9 @@ export class FiscalController {
         var pedidos = await this.pedidosService.findWhere(null, false);
         pedidos = pedidos.filter(pedido =>
             pedido.pagamentos.every(pagamento =>
+
                 pagamento.formaDePagamento === 'PIX' || pagamento.formaDePagamento.includes('CARTAO') ||
-                pagamento.formaDePagamento.includes('DEBITO'))
+                pagamento.formaDePagamento.includes('DEBITO')) && pedido.total != 0
         );
         var totalProcessado = 0.0;
         var danfers = [];
@@ -108,6 +109,12 @@ export class FiscalController {
             danfers.push(danfe);
             totalProcessado += pedido.total;
         }
+        pedidos = await this.pedidosService.findWhere(null, false);
+        for (var pedido of pedidos) {
+            pedido.enviadoNF = true;
+            this.pedidosService.updateFromModel(pedido);
+        }
+
 
 
         return new ResultadoProcessarNotasDto({
