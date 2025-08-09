@@ -7,8 +7,7 @@ export class PagamentoService {
 
     gerarUrlDePagamento(pagamentoRequest: PagamentoRequestDto): string {
         var items = JSON.stringify(pagamentoRequest.items);
-        log(items);
-        log(`https://checkout.infinitepay.io/${pagamentoRequest.handler}?items=${items.toString()}&redirect_url=${pagamentoRequest.redirectUrl}&order_nsu=${pagamentoRequest.orderNsu}`);
+
         return `https://checkout.infinitepay.io/${pagamentoRequest.handler}?items=${items.toString()}&redirect_url=${pagamentoRequest.redirectUrl}&order_nsu=${pagamentoRequest.orderNsu}`;
     }
 

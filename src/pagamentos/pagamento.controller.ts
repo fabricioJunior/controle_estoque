@@ -28,7 +28,7 @@ export class PagamentoController {
         return result;
     }
 
-    @Get()
+    @Get('url')
     async get(@Query('idPedido') idPedido: string) {
         var pedido = await this.pedidosService.findById(Number.parseInt(idPedido));
         var pagamentoRequest = new PagamentoRequestDto({
@@ -41,7 +41,9 @@ export class PagamentoController {
             orderNsu: pedido.id.toString(),
             redirectUrl: 'https://estoque-online-git-main-fabriciojuniors-projects.vercel.app/pagamento'
         });
+        console.log(pagamentoRequest);
         var url = this.pagamentoService.gerarUrlDePagamento(pagamentoRequest);
+        console.log(url);
         pedido.pagamentoPendente = true;
 
         pedido.urlDePagamento = url;
