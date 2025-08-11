@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { EstoqueService } from './estoque.service';
 import { Produto } from './entities/produto.entity';
 import { ProdutoDto } from './dtos/produto.dto';
@@ -12,6 +12,24 @@ export class EstoqueController {
   async get(): Promise<Produto[]> {
     return this.estoqueService.findAll();
 
+  }
+  @Get('filtro')
+  async getBy(@Query('descricao') descricao?: string) {
+    return this.estoqueService.findAllWhere(
+      {
+        descricao: descricao
+      }
+    );
+  }
+  @Get('cores')
+  async getCores() {
+    return this.estoqueService.findAllCores()
+      ;
+  }
+  @Get('tamanhos')
+  async getTamanhos() {
+    return this.estoqueService.findAllTamanhos()
+      ;
   }
 
   @Post()

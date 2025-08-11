@@ -48,4 +48,23 @@ export class EstoqueService {
   async findAll(): Promise<Produto[]> {
     return this.produtoModel.find().exec();
   }
+  async findAllWhere(find: FindProduto): Promise<Produto[]> {
+    var produtos = this.produtoModel.find({
+      descricao: { $regex: find.descricao, $options: 'i' },
+      cor: 'MARROM'
+    })
+    return produtos;
+  }
+
+  async findAllCores(): Promise<String[]> {
+    return this.produtoModel.distinct('cor');
+  }
+  async findAllTamanhos(): Promise<String[]> {
+    return this.produtoModel.distinct('tamanho');
+  }
+}
+
+class FindProduto {
+  descricao?: string;
+
 }
