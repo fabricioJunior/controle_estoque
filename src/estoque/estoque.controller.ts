@@ -14,10 +14,11 @@ export class EstoqueController {
 
   }
   @Get('filtro')
-  async getBy(@Query('descricao') descricao?: string) {
+  async getBy(@Query('descricao') descricao?: string, @Query('referencia') referencia?: string) {
     return this.estoqueService.findAllWhere(
       {
-        descricao: descricao
+        descricao: descricao,
+        referencia: referencia
       }
     );
   }
@@ -30,6 +31,11 @@ export class EstoqueController {
   async getTamanhos() {
     return this.estoqueService.findAllTamanhos()
       ;
+  }
+  @Get('tamanhoCor')
+  async getTamanhoCor(@Query('referencia') referencia?: string) {
+    return this.estoqueService.findAllTamanhoCor(referencia);
+
   }
 
   @Post()

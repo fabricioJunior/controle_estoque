@@ -50,8 +50,8 @@ export class EstoqueService {
   }
   async findAllWhere(find: FindProduto): Promise<Produto[]> {
     var produtos = this.produtoModel.find({
-      descricao: { $regex: find.descricao, $options: 'i' },
-      cor: 'MARROM'
+      descricao: { $regex: find.descricao ?? '', $options: 'i' },
+      referencia: find.referencia
     })
     return produtos;
   }
@@ -62,9 +62,34 @@ export class EstoqueService {
   async findAllTamanhos(): Promise<String[]> {
     return this.produtoModel.distinct('tamanho');
   }
+  async findAllTamanhoCor(referencia: string) {
+    return this.produtoModel.aggregate([
+      { "$match": { "referencia": referencia } },
+
+      {
+
+        $group: {
+          _id: "$referencia",
+          cruzamento: {
+
+
+            $addToSet: {
+
+              tamanho: '$tamanho',
+              cor: '$cor',
+              quantidade: '$quantidade'
+            },
+
+          }  // Agrupar tamanhos únicos
+        },
+
+      }
+    ]);
+  }
 }
 
 class FindProduto {
   descricao?: string;
+  referencia?: string;
 
 }
