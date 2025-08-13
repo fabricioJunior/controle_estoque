@@ -59,7 +59,7 @@ export class EstoqueService {
     if (find.estoqueMaiorQueZero ?? false) {
       query.quantidade = { $gt: 0 }
     }
-    var produtos = this.produtoModel.find(query)
+    var produtos = this.produtoModel.find(query).sort({ quantidade: -1 });
     return produtos;
   }
 
