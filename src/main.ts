@@ -17,7 +17,8 @@ async function bootstrap() {
       'https://www.useporondeflor.com.br',
       'useporondeflor.com.br',
       'http://useporondeflor.com.br',
-      'https://useporondeflor.com.br'
+      'https://useporondeflor.com.br',
+      'http://localhost:4200',
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,

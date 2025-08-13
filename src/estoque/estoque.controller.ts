@@ -18,7 +18,6 @@ export class EstoqueController {
     return this.estoqueService.findAllWhere(
       {
         descricao: descricao,
-        referencia: referencia
       }
     );
   }

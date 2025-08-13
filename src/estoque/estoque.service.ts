@@ -49,10 +49,14 @@ export class EstoqueService {
     return this.produtoModel.find().exec();
   }
   async findAllWhere(find: FindProduto): Promise<Produto[]> {
-    var produtos = this.produtoModel.find({
-      descricao: { $regex: find.descricao ?? '', $options: 'i' },
-      referencia: find.referencia
-    })
+    var query: any = {};
+    if (find.descricao != null) {
+      query.descricao = { $regex: find.descricao ?? '', $options: 'i' };
+    }
+    if (find.referencia != null) {
+      query.referencia = find.referencia;
+    }
+    var produtos = this.produtoModel.find(query)
     return produtos;
   }
 
