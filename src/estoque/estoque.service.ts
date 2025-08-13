@@ -56,6 +56,9 @@ export class EstoqueService {
     if (find.referencia != null) {
       query.referencia = find.referencia;
     }
+    if (find.estoqueMaiorQueZero ?? false) {
+      query.quantidade = { $gt: 0 }
+    }
     var produtos = this.produtoModel.find(query)
     return produtos;
   }
@@ -95,5 +98,5 @@ export class EstoqueService {
 class FindProduto {
   descricao?: string;
   referencia?: string;
-
+  estoqueMaiorQueZero?: boolean
 }
