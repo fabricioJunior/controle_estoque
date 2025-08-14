@@ -61,7 +61,7 @@ export class EstoqueService {
     if (find.estoqueMaiorQueZero ?? false) {
       query.quantidade = { $gt: 0 }
     }
-    var produtos = this.produtoModel.find(query).sort({ descricao: 1, tamanho: 1 });
+    var produtos = this.produtoModel.find(query).sort({ tamanho: 1, descricao: 1, });
     return produtos;
   }
   removeAccents(str: string): string {
