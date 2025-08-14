@@ -51,7 +51,9 @@ export class EstoqueService {
   async findAllWhere(find: FindProduto): Promise<Produto[]> {
     var query: any = {};
     if (find.descricao != null) {
-      query.descricao = { $regex: find.descricao ?? '', $options: 'i' };
+      query.descricao = {
+        $regex: this.removeAccents(find.descricao) ?? '', $options: 'i'
+      };
     }
     if (find.referencia != null) {
       query.referencia = find.referencia;
@@ -61,6 +63,9 @@ export class EstoqueService {
     }
     var produtos = this.produtoModel.find(query).sort({ quantidade: -1 });
     return produtos;
+  }
+  removeAccents(str: string): string {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
 
   async findAllCores(): Promise<String[]> {
