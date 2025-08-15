@@ -14,12 +14,14 @@ export class EstoqueController {
 
   }
   @Get('filtro')
-  async getBy(@Query('descricao') descricao?: string, @Query('referencia') referencia?: string, @Query('estoqueMaiorQueZero') estoqueMaiorQueZero?: boolean) {
+  async getBy(@Query('tamanhos') tamanhos?: string, @Query('cores') cores?: string, @Query('descricao') descricao?: string, @Query('referencia') referencia?: string, @Query('estoqueMaiorQueZero') estoqueMaiorQueZero?: boolean) {
     return this.estoqueService.findAllWhere(
       {
         descricao: descricao,
         referencia: referencia,
         estoqueMaiorQueZero: estoqueMaiorQueZero,
+        cores: cores?.split(','),
+        tamanhos: tamanhos?.split(',')
       }
     );
   }
