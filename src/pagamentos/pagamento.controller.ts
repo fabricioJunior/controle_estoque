@@ -5,7 +5,6 @@ import { PagamentoRequestDto } from "./dtos/pagamento.request.dto";
 import { PagamentoResultDto } from "./dtos/pagamento.result.dto";
 import { PagamentoModel } from "src/pedidos/models/pagamento.model";
 import { PagamentoPendenteDto } from "./dtos/pagamento.pendente.dto";
-import { log } from "console";
 import { PedidoModel } from "src/pedidos/models/pedido.model";
 
 @Controller('pagamento')
