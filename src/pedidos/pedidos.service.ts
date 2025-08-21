@@ -40,7 +40,7 @@ export class PedidosService {
         var filter = {
             id: pedido.id,
         }
-        var result = await this.pedidoModel.findOneAndUpdate(filter, {
+        var result = await (await this.pedidoModel.findOneAndUpdate(filter, {
             enviadoNF: pedido.enviadoNF,
             urlDanfe: pedido.urlDanfe,
             produtos: pedido.produtos,
@@ -49,8 +49,7 @@ export class PedidosService {
             urlDePagamento: pedido.urlDePagamento,
             pessoa: pedido.pessoa,
             urlComprovante: pedido.urlComprovante,
-
-        }).exec();
+        }, { runValidators: true })).save();
         return result;
     }
     async update(idPedido: number, enviadoNF: boolean, urlDanfe: string): Promise<PedidoModel> {

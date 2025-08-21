@@ -6,6 +6,7 @@ import { PagamentoResultDto } from "./dtos/pagamento.result.dto";
 import { PagamentoModel } from "src/pedidos/models/pagamento.model";
 import { PagamentoPendenteDto } from "./dtos/pagamento.pendente.dto";
 import { log } from "console";
+import { PedidoModel } from "src/pedidos/models/pedido.model";
 
 @Controller('pagamento')
 export class PagamentoController {
@@ -18,7 +19,7 @@ export class PagamentoController {
         return pedidos;
     }
     @Get('pedidoComPagamentoPendente')
-    async pedidoComPagamentoPendente(@Query('idPedido') idPedido: string) {
+    async pedidoComPagamentoPendente(@Query('idPedido') idPedido: string): Promise<PagamentoPendenteDto> {
         var pedido = await this.pedidosService.findById(Number.parseInt(idPedido));
         var result = new PagamentoPendenteDto({
             idPedido: idPedido,
@@ -30,7 +31,7 @@ export class PagamentoController {
     }
 
     @Get('url')
-    async get(@Query('idPedido') idPedido: string) {
+    async get(@Query('idPedido') idPedido: string): Promise<string> {
         var pedido = await this.pedidosService.findById(Number.parseInt(idPedido));
         var pagamentoRequest = new PagamentoRequestDto({
             handler: 'useporondeflor',
@@ -42,18 +43,18 @@ export class PagamentoController {
             orderNsu: pedido.id.toString(),
             redirectUrl: 'https://useporondeflor.com.br/pagamento'
         });
-        console.log(pagamentoRequest);
-        var url = this.pagamentoService.gerarUrlDePagamento(pagamentoRequest);
-        console.log(url);
-        pedido.pagamentoPendente = true;
 
+        var url = this.pagamentoService.gerarUrlDePagamento(pagamentoRequest);
+
+        pedido.pagamentoPendente = true;
+        console.log(pedido.pagamentoPendente);
         pedido.urlDePagamento = url;
-        await this.pedidosService.updateFromModel(pedido);
+        var result = await this.pedidosService.updateFromModel(pedido);
         return url;
     }
     //http://localhost:4200/pagamento?capture_method=pix&transaction_id=6a2b67ec-5d41-4e9d-979b-e63675f8c96b&transaction_nsu=6a2b67ec-5d41-4e9d-979b-e63675f8c96b&slug=21TGnE5n3v&order_nsu=7629&receipt_url=https:%2F%2Frecibo.infinitepay.io%2F6a2b67ec-5d41-4e9d-979b-e63675f8c96b
     @Post()
-    async post(@Body() pagamento: PagamentoResultDto) {
+    async post(@Body() pagamento: PagamentoResultDto): Promise<PagamentoPendenteDto> {
         var pedido = await this.pedidosService.findById(Number.parseInt(pagamento.idPedido));
         var valorPagamento = pedido.pagamentos.reduce((total, pag) => total + pag.valor, 0);
 
@@ -79,9 +80,9 @@ export class PagamentoController {
     }
 
     @Post('cancelar')
-    async cancelarPagamento(@Query('idPedido') idPedido: string) {
+    async cancelarPagamento(@Query('idPedido') idPedido: string): Promise<PedidoModel> {
         var pedido = await this.pedidosService.findById(Number.parseInt(idPedido));
         pedido.pagamentoPendente = false;
-        return this.pedidosService.updateFromModel(pedido);
+        return await this.pedidosService.updateFromModel(pedido);
     }
 }
