@@ -5,6 +5,7 @@ import { PagamentoRequestDto } from "./dtos/pagamento.request.dto";
 import { PagamentoResultDto } from "./dtos/pagamento.result.dto";
 import { PagamentoModel } from "src/pedidos/models/pagamento.model";
 import { PagamentoPendenteDto } from "./dtos/pagamento.pendente.dto";
+import { log } from "console";
 
 @Controller('pagamento')
 export class PagamentoController {
@@ -19,7 +20,6 @@ export class PagamentoController {
     @Get('pedidoComPagamentoPendente')
     async pedidoComPagamentoPendente(@Query('idPedido') idPedido: string) {
         var pedido = await this.pedidosService.findById(Number.parseInt(idPedido));
-
         var result = new PagamentoPendenteDto({
             idPedido: idPedido,
             notaFiscal: pedido?.urlDanfe,
@@ -40,7 +40,7 @@ export class PagamentoController {
                 quantity: produto.quantidade
             })),
             orderNsu: pedido.id.toString(),
-            redirectUrl: 'https://use-por-onde-flor.vercel.app/pagamento'
+            redirectUrl: 'https://useporondeflor.com.br/pagamento'
         });
         console.log(pagamentoRequest);
         var url = this.pagamentoService.gerarUrlDePagamento(pagamentoRequest);

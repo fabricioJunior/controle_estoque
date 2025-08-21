@@ -55,6 +55,7 @@ export class PedidoModel {
 
     @Prop()
     pagamentoPendente?: boolean;
+
     @Prop()
     urlDePagamento?: string;
     @Prop()
