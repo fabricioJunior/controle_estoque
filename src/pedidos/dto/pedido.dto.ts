@@ -10,4 +10,5 @@ export class PedidoDto {
     produtos: ProdutoPedidoDto[]
     pagamentos: PagamentoDto[]
     pessoa?: PessoaDto;
+    pedidoPagamento?: boolean
 }

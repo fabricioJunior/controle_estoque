@@ -25,6 +25,8 @@ export class ProdutoPedidoModel {
     @Prop()
     codigoDeBarras: string;
 
+
+
     constructor(partial?: Partial<ProdutoPedidoModel>) {
         Object.assign(this, partial);
     }

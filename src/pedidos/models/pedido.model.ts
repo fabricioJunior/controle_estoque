@@ -60,6 +60,9 @@ export class PedidoModel {
     @Prop()
     urlComprovante?: string;
 
+    @Prop()
+    pedidoPagamento?: boolean;
+
     constructor(partial?: Partial<PedidoModel>) {
         Object.assign(this, partial);
         this._id = new mongoose.mongo.BSON.ObjectId(this.id,);
