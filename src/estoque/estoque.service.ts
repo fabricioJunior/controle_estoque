@@ -61,7 +61,6 @@ export class EstoqueService {
 
     if (find.estoqueMaiorQueZero === true) {
       query.quantidade = { $gt: 0 }
-      log(find.estoqueMaiorQueZero);
     }
     if (find.cores != null) {
       query.cor = { $in: find.cores }
@@ -69,7 +68,6 @@ export class EstoqueService {
     if (find.tamanhos != null) {
       query.tamanho = { $in: find.tamanhos }
     }
-    log(query);
     var produtos = this.produtoModel.find(query).sort({ tamanho: 1, descricao: 1, });
     return produtos;
   }
