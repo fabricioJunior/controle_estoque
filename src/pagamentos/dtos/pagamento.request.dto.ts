@@ -6,6 +6,12 @@ export class PagamentoRequestDto {
     orderNsu: string;
     redirectUrl: string;
     items: ItemDto[];
+    valor: number;
+
+    pedidoId?: number;
+    identificadorExterno?: string;
+
+
 
     constructor(partial?: Partial<PagamentoRequestDto>) {
         Object.assign(this, partial);
