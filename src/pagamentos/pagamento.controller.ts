@@ -96,7 +96,9 @@ export class PagamentoController {
     //http://localhost:4200/pagamento?capture_method=pix&transaction_id=6a2b67ec-5d41-4e9d-979b-e63675f8c96b&transaction_nsu=6a2b67ec-5d41-4e9d-979b-e63675f8c96b&slug=21TGnE5n3v&order_nsu=7629&receipt_url=https:%2F%2Frecibo.infinitepay.io%2F6a2b67ec-5d41-4e9d-979b-e63675f8c96b
     @Post()
     async post(@Body() pagamento: PagamentoResultDto): Promise<PagamentoPendenteDto> {
-        if (pagamento.idPedido == null) {
+
+        var pedido = await this.pedidosService.findById(Number.parseInt(pagamento.idPedido));
+        if (pedido == null) {
             var pagamentoOnline = await this.pagamentoService.obterPagamentoOnlinePorNsu(pagamento.nsu);
             if (pagamentoOnline == null) {
                 throw new Error('Pagamento online não encontrado para o nsu informado');
@@ -104,9 +106,15 @@ export class PagamentoController {
             pagamentoOnline.slug = pagamento.slug;
             pagamentoOnline.transacaoId = pagamento.transanctionId;
             pagamentoOnline.urlComprovante = pagamento.comprovanteDePagamento;
-
+            pagamentoOnline.cancelado = false;
+            pagamentoOnline.pendente = false;
+            await this.pagamentoService.updatePagamentoOnline(pagamentoOnline);
+            return new PagamentoPendenteDto({
+                comprovante: pagamentoOnline.urlComprovante,
+                pendente: false,
+                orderNsu: pagamentoOnline.orderNsu,
+            });
         }
-        var pedido = await this.pedidosService.findById(Number.parseInt(pagamento.idPedido));
         var valorPagamento = pedido.pagamentos.reduce((total, pag) => total + pag.valor, 0);
 
         var pagamentoModel = new PagamentoModel({

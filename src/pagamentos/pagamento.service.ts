@@ -48,6 +48,12 @@ export class PagamentoService {
         return this.pagamentoModel.findOne({ orderNsu: orderNsu }).exec();
     }
 
+    updatePagamentoOnline(pagamentoOnline: PagamentoOnlineModel): Promise<PagamentoOnlineModel> {
+        var query = {
+            orderNsu: pagamentoOnline.orderNsu
+        }
+        return this.pagamentoModel.findOneAndUpdate(query, pagamentoOnline);
+    }
     cancelarPagamento(orderNsu: string): Promise<PagamentoOnlineModel> {
         return this.pagamentoModel.findOneAndUpdate(
             {
