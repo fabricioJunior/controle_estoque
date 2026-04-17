@@ -19,6 +19,9 @@ async function bootstrap() {
       'http://useporondeflor.com.br',
       'https://useporondeflor.com.br',
       'http://localhost:4200',
+      'https://use-por-onde-flor-kpbg-45l5fb1pc-fabriciojuniors-projects.vercel.app',
+      'https://use-por-onde-flor-kpbg-git-develop-fabriciojuniors-projects.vercel.app',
+      'https://use-por-onde-flor-kpbg.vercel.app'
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
